@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class TasksPage extends StatelessWidget {
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +41,14 @@ class TasksPage extends StatelessWidget {
           }
         }),
       ),
-      body: Observer(
-        builder:(_)=> ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: taskStore.tasks.length,
-            itemBuilder: (BuildContext context,int index)=>
-        taskItem(taskStore.tasks[index])
+      body: SafeArea(
+        child: Observer(
+          builder:(_)=> taskStore.tasks.length == 0 ? Center(child: Text("Listenizde görev bulunmuyor")):ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: taskStore.tasks.length,
+              itemBuilder: (BuildContext context,int index)=>
+          taskItem(taskStore.tasks[index])
+          ),
         ),
       ),
     );
